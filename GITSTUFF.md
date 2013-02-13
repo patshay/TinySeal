@@ -16,3 +16,9 @@ git push -u origin master
 
 git push origin master
 // Sends your commits in the "master" branch to GitHub
+
+//to add shit
+git add file
+git commit -m 'commit comments'
+git push origin master
+
