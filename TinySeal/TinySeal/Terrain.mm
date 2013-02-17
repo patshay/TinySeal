@@ -117,27 +117,27 @@
             p1 = _hillKeyPoints[i];
             
             // triangle strip between p0 and p1
-            int hSegments = floorf((p1.x-p0.x)/kHillSegmentWidth);
-            float dx = (p1.x - p0.x) / hSegments;
+            int hSegments = floorf((p1.y-p0.y)/kHillSegmentWidth);
+            float dy = (p1.y - p0.y) / hSegments;
             float da = M_PI / hSegments;
-            float ymid = (p0.y + p1.y) / 2;
-            float ampl = (p0.y - p1.y) / 2;
+            float xmid = (p0.x + p1.x) / 2;
+            float ampl = (p0.x - p1.x) / 2;
             pt0 = p0;
             _borderVertices[_nBorderVertices++] = pt0;
             for (int j=1; j<hSegments+1; j++) {
-                pt1.x = p0.x + j*dx;
-                pt1.y = ymid + ampl * cosf(da*j);
+                pt1.y = p0.y + j*dy;
+                pt1.x = xmid + ampl * cosf(da*j);
                 _borderVertices[_nBorderVertices++] = pt1;
                 
-                _hillVertices[_nHillVertices] = CGPointMake(pt0.x, 0);
-                _hillTexCoords[_nHillVertices++] = CGPointMake(pt0.x/512, 1.0f);
-                _hillVertices[_nHillVertices] = CGPointMake(pt1.x, 0);
-                _hillTexCoords[_nHillVertices++] = CGPointMake(pt1.x/512, 1.0f);
+                _hillVertices[_nHillVertices] = CGPointMake(0, pt0.y);
+                _hillTexCoords[_nHillVertices++] = CGPointMake(1.0f, pt0.y/512);//flipped
+                _hillVertices[_nHillVertices] = CGPointMake(0, pt1.y);
+                _hillTexCoords[_nHillVertices++] = CGPointMake(1.0f, pt1.y/512);//flipped
                 
                 _hillVertices[_nHillVertices] = CGPointMake(pt0.x, pt0.y);
-                _hillTexCoords[_nHillVertices++] = CGPointMake(pt0.x/512, 0);
+                _hillTexCoords[_nHillVertices++] = CGPointMake(0, pt0.y/512);
                 _hillVertices[_nHillVertices] = CGPointMake(pt1.x, pt1.y);
-                _hillTexCoords[_nHillVertices++] = CGPointMake(pt1.x/512, 0);
+                _hillTexCoords[_nHillVertices++] = CGPointMake(0,pt1.y/512);
                 
                 pt0 = pt1;
             }
