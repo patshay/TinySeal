@@ -32,18 +32,26 @@
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     
     float gradientAlpha = 0.7;    
-    CGPoint vertices[4];
-    ccColor4F colors[4];
+    CGPoint vertices[6];
+    ccColor4F colors[6];
     int nVertices = 0;
     
+    //gradeint for bg area
     vertices[nVertices] = CGPointMake(0, 0);
-    colors[nVertices++] = (ccColor4F){0, 0, 0, 0 };
-    vertices[nVertices] = CGPointMake(textureSize, 0);
-    colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
+    colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
     vertices[nVertices] = CGPointMake(0, textureSize);
+    colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
+    vertices[nVertices] = CGPointMake(textureSize/2, 0);
+    colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
+    vertices[nVertices] = CGPointMake(textureSize/2, textureSize);
+    colors[nVertices++] = (ccColor4F){0, 0, 0, 0};
+    //at middle of gradient
+    vertices[nVertices] = CGPointMake(textureSize, 0);
     colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
     vertices[nVertices] = CGPointMake(textureSize, textureSize);
     colors[nVertices++] = (ccColor4F){0, 0, 0, gradientAlpha};
+
+
     
     glVertexPointer(2, GL_FLOAT, 0, vertices);
     glColorPointer(4, GL_FLOAT, 0, colors);
@@ -104,6 +112,7 @@
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei)nVertices);
     
     // layer 2: gradient
+    /*
     glEnableClientState(GL_COLOR_ARRAY);
     
     float gradientAlpha = 0.7;    
@@ -122,8 +131,10 @@
     glVertexPointer(2, GL_FLOAT, 0, vertices);
     glColorPointer(4, GL_FLOAT, 0, colors);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)nVertices);
+    */
     
     // layer 3: top highlight    
+   /*
     float borderWidth = textureSize/16;
     float borderAlpha = 0.3f;
     nVertices = 0;
@@ -146,11 +157,13 @@
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnable(GL_TEXTURE_2D);        
+    */
     
     // Layer 2: Noise    
     CCSprite *noise = [CCSprite spriteWithFile:@"Noise.png"];
     [noise setBlendFunc:(ccBlendFunc){GL_DST_COLOR, GL_ZERO}];
     noise.position = ccp(textureSize/2, textureSize/2);
+    noise.rotation = -90.0;
     [noise visit];        
     
     // 4: Call CCRenderTexture:end
@@ -273,7 +286,8 @@
     offset += PIXELS_PER_SECOND * dt;
     
     CGSize textureSize = _background.textureRect.size;
-    [_background setTextureRect:CGRectMake(offset*0.7, 0, textureSize.width, textureSize.height)];
+    //changed xy so the texture goes up, still need to make it so the noise is rotated
+    [_background setTextureRect:CGRectMake(0, offset*0.7, textureSize.width, textureSize.height)];
    
     [_terrain setOffsetX:offset];
     

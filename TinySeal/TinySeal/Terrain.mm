@@ -189,7 +189,9 @@
     glTexCoordPointer(2, GL_FLOAT, 0, _hillTexCoords);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)_nHillVertices);
     
-    /*for(int i = MAX(_fromKeyPointI, 1); i <= _toKeyPointI; ++i) {
+    /*
+     //red debug line
+     for(int i = MAX(_fromKeyPointI, 1); i <= _toKeyPointI; ++i) {
         glColor4f(1.0, 0, 0, 1.0); 
         ccDrawLine(_hillKeyPoints[i-1], _hillKeyPoints[i]);     
         
