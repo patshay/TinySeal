@@ -58,34 +58,35 @@
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     
-    float minDX = 160;
-    float minDY = 60;
-    int rangeDX = 80;
-    int rangeDY = 40;
+    float minDY = 160;
+    float minDX = 60;
+    int rangeDY = 80;
+    int rangeDX = 40;
     
-    float x = -minDX;
-    float y = winSize.height/2-minDY;
+    float y = -minDY;
+    float x = winSize.width/2-minDX; //flipped width
     
-    float dy, ny;
+    float dx, nx;
     float sign = 1; // +1 - going up, -1 - going  down
-    float paddingTop = 20;
+    float paddingTop = 120;
     float paddingBottom = 20;
     
     for (int i=0; i<kMaxHillKeyPoints; i++) {
         _hillKeyPoints[i] = CGPointMake(x, y);
         if (i == 0) {
-            x = 0;
-            y = winSize.height/2;
+            y = 0;
+            x = winSize.width/2; //flipped height
         } else {
-            x += rand()%rangeDX+minDX;
+            y += rand()%rangeDY+minDY;
             while(true) {
-                dy = rand()%rangeDY+minDY;
-                ny = y + dy*sign;
-                if(ny < winSize.height-paddingTop && ny > paddingBottom) {
+                dx = rand()%rangeDX+minDX;
+                nx = x + dx*sign;
+                if(nx < winSize.width-paddingTop && nx > paddingBottom) {
+                    //flipped height
                     break;   
                 }
             }
-            y = ny;
+            x = nx;
         }
         sign *= -1;
     }
@@ -98,11 +99,11 @@
     static int prevFromKeyPointI = -1;
     static int prevToKeyPointI = -1;
     
-    // key points interval for drawing
-    while (_hillKeyPoints[_fromKeyPointI+1].x < _offsetX-winSize.width/8/self.scale) {
+    // key points interval for drawing        *******
+    while (_hillKeyPoints[_fromKeyPointI+1].y < _offsetY-winSize.height/8/self.scale) {
         _fromKeyPointI++;
     }
-    while (_hillKeyPoints[_toKeyPointI].x < _offsetX+winSize.width*9/8/self.scale) {
+    while (_hillKeyPoints[_toKeyPointI].y < _offsetY+winSize.height*9/8/self.scale) {
         _toKeyPointI++;
     }
     
@@ -129,6 +130,15 @@
                 pt1.x = xmid + ampl * cosf(da*j);
                 _borderVertices[_nBorderVertices++] = pt1;
                 
+//                _hillVertices[_nHillVertices] = CGPointMake(0, pt0.y);
+//                _hillTexCoords[_nHillVertices++] = CGPointMake(1.0f, pt0.y/512);//flipped
+//                _hillVertices[_nHillVertices] = CGPointMake(0, pt1.y);
+//                _hillTexCoords[_nHillVertices++] = CGPointMake(1.0f, pt1.y/512);//flipped
+//                
+//                _hillVertices[_nHillVertices] = CGPointMake(pt0.x, pt0.y);
+//                _hillTexCoords[_nHillVertices++] = CGPointMake(0, pt0.y/512);
+//                _hillVertices[_nHillVertices] = CGPointMake(pt1.x, pt1.y);
+//                _hillTexCoords[_nHillVertices++] = CGPointMake(0,pt1.y/512);
                 _hillVertices[_nHillVertices] = CGPointMake(0, pt0.y);
                 _hillTexCoords[_nHillVertices++] = CGPointMake(1.0f, pt0.y/512);//flipped
                 _hillVertices[_nHillVertices] = CGPointMake(0, pt1.y);
@@ -138,6 +148,8 @@
                 _hillTexCoords[_nHillVertices++] = CGPointMake(0, pt0.y/512);
                 _hillVertices[_nHillVertices] = CGPointMake(pt1.x, pt1.y);
                 _hillTexCoords[_nHillVertices++] = CGPointMake(0,pt1.y/512);
+
+
                 
                 pt0 = pt1;
             }
@@ -160,14 +172,6 @@
     _debugDraw->SetFlags(b2DebugDraw::e_shapeBit | b2DebugDraw::e_jointBit);
 }
 
-//- (id)init {
-//    if ((self = [super init])) {
-//        [self generateHills];
-//        [self resetHillVertices];
-//    }
-//    return self;
-//}
-//taken out to do box init
 - (id)initWithWorld:(b2World *)world {
     if ((self = [super init])) {
         _world = world;
@@ -232,10 +236,15 @@
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
+- (void) setOffsetY:(float)newOffsetY {
+    _offsetY = newOffsetY;
+    self.position = CGPointMake(0,-_offsetY*self.scale);
+    [self resetHillVertices];
+}
+
+//right now used to offset the right wall.  Can change later If I want the walls to shake?
 - (void) setOffsetX:(float)newOffsetX {
     _offsetX = newOffsetX;
-    self.position = CGPointMake(-_offsetX*self.scale, 0);
-    [self resetHillVertices];
 }
 
 - (void)dealloc {

@@ -289,7 +289,7 @@
     //changed xy so the texture goes up, still need to make it so the noise is rotated
     [_background setTextureRect:CGRectMake(0, offset*0.7, textureSize.width, textureSize.height)];
    
-    [_terrain setOffsetX:offset];
+    [_terrain setOffsetY:offset];
     
 }
 
