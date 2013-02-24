@@ -15,6 +15,7 @@
 {
 	CCScene *scene = [CCScene node];
 	HelloWorldLayer *layer = [HelloWorldLayer node];
+    [layer setScaleY:-1.0f];
 	[scene addChild: layer];
 	return scene;
 }

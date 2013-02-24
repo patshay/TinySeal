@@ -130,15 +130,6 @@
                 pt1.x = xmid + ampl * cosf(da*j);
                 _borderVertices[_nBorderVertices++] = pt1;
                 
-//                _hillVertices[_nHillVertices] = CGPointMake(0, pt0.y);
-//                _hillTexCoords[_nHillVertices++] = CGPointMake(1.0f, pt0.y/512);//flipped
-//                _hillVertices[_nHillVertices] = CGPointMake(0, pt1.y);
-//                _hillTexCoords[_nHillVertices++] = CGPointMake(1.0f, pt1.y/512);//flipped
-//                
-//                _hillVertices[_nHillVertices] = CGPointMake(pt0.x, pt0.y);
-//                _hillTexCoords[_nHillVertices++] = CGPointMake(0, pt0.y/512);
-//                _hillVertices[_nHillVertices] = CGPointMake(pt1.x, pt1.y);
-//                _hillTexCoords[_nHillVertices++] = CGPointMake(0,pt1.y/512);
                 _hillVertices[_nHillVertices] = CGPointMake(0, pt0.y);
                 _hillTexCoords[_nHillVertices++] = CGPointMake(1.0f, pt0.y/512);//flipped
                 _hillVertices[_nHillVertices] = CGPointMake(0, pt1.y);
@@ -148,8 +139,6 @@
                 _hillTexCoords[_nHillVertices++] = CGPointMake(0, pt0.y/512);
                 _hillVertices[_nHillVertices] = CGPointMake(pt1.x, pt1.y);
                 _hillTexCoords[_nHillVertices++] = CGPointMake(0,pt1.y/512);
-
-
                 
                 pt0 = pt1;
             }
@@ -243,9 +232,6 @@
 }
 
 //right now used to offset the right wall.  Can change later If I want the walls to shake?
-- (void) setOffsetX:(float)newOffsetX {
-    _offsetX = newOffsetX;
-}
 
 - (void)dealloc {
     [_stripes release];

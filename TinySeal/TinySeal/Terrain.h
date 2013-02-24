@@ -18,7 +18,7 @@
 #define kMaxBorderVertices 800 
 
 @interface Terrain : CCNode {
-    int _offsetX;
+    int _offsetY;
     CGPoint _hillKeyPoints[kMaxHillKeyPoints];
     CCSprite *_stripes;
     
@@ -38,7 +38,7 @@
 }
 
 @property (retain) CCSprite * stripes;
-- (void) setOffsetX:(float)newOffsetX;
 - (id)initWithWorld:(b2World *)world;
+- (void) setOffsetY:(float)newOffsetY;
 
 @end
