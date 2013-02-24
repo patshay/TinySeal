@@ -68,14 +68,17 @@
     
     float dx, nx;
     float sign = 1; // +1 - going up, -1 - going  down
-    float paddingTop = 120;
-    float paddingBottom = 20;
+    
+    
+    float paddingTop = winSize.width/2;
+    float paddingBottom = 10;
+    
     
     for (int i=0; i<kMaxHillKeyPoints; i++) {
         _hillKeyPoints[i] = CGPointMake(x, y);
         if (i == 0) {
             y = 0;
-            x = winSize.width/2; //flipped height
+            x = winSize.width/4; //flipped height
         } else {
             y += rand()%rangeDY+minDY;
             while(true) {
